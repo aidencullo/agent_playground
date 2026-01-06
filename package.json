@@ -1,0 +1,19 @@
+{
+  "name": "claude_code_playground",
+  "version": "1.0.0",
+  "description": "Access point for Claude Code web to build new projects",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "bun run index.ts",
+    "test": "bun test"
+  },
+  "keywords": [
+    "claude",
+    "code",
+    "playground",
+    "rapid-prototyping"
+  ],
+  "author": "",
+  "license": "MIT"
+}
