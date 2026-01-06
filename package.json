@@ -1,11 +1,14 @@
 {
   "name": "claude_code_playground",
   "version": "1.0.0",
-  "description": "Access point for Claude Code web to build new projects",
+  "description": "React app deployed with S3 + CloudFront",
   "type": "module",
-  "main": "index.ts",
   "scripts": {
-    "dev": "bun run index.ts",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "setup-aws": "bun run scripts/setup-infrastructure.ts",
+    "deploy": "bun run scripts/deploy.ts",
     "test": "bun test"
   },
   "keywords": [
@@ -15,5 +18,20 @@
     "rapid-prototyping"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-cloudfront": "^3.964.0",
+    "@aws-sdk/client-s3": "^3.964.0",
+    "@types/mime-types": "^3.0.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "mime-types": "^3.0.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
+  }
 }
