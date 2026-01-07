@@ -3,8 +3,6 @@ name: Build Docker Image
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 jobs:
   build:
@@ -15,3 +13,10 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t amp-playground .
+
+      - name: Run Docker container
+        run: |
+          docker run -d -p 8080:80 --name test-container amp-playground
+          sleep 2
+          curl -f http://localhost:8080
+          docker stop test-container
