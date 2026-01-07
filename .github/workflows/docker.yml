@@ -16,7 +16,6 @@ jobs:
 
       - name: Run Docker container
         run: |
-          docker run -d -p 8080:80 --name test-container amp-playground
+          docker run -d -p 8080:80 amp-playground
           sleep 2
           curl -f http://localhost:8080
-          docker stop test-container
