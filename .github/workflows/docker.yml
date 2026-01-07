@@ -18,4 +18,6 @@ jobs:
         run: |
           docker run -d -p 8080:80 amp-playground
           sleep 2
-          curl -f http://localhost:8080
+
+      - name: Health check
+        run: curl -f http://localhost:8080
