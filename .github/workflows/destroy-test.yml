@@ -1,0 +1,74 @@
+name: Destroy Test Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "destroy" to confirm'
+        required: true
+        default: ''
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  destroy-test:
+    name: Destroy Test Environment
+    runs-on: ubuntu-latest
+    environment:
+      name: test
+      action: stop
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Confirm destruction
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "destroy" ]; then
+            echo "❌ Destruction not confirmed. Please type 'destroy' to confirm."
+            exit 1
+          fi
+          echo "✅ Destruction confirmed"
+
+      - name: Stop test environment
+        run: |
+          echo "🛑 Stopping test environment..."
+          echo "Environment: test"
+          echo "Action: stop"
+
+          # Add your cleanup commands here, for example:
+          # - Stop Docker containers
+          # - Remove deployed resources
+          # - Clean up test data
+          # - Revoke temporary credentials
+
+          # Example cleanup commands:
+          # docker-compose -f docker-compose.test.yml down -v
+          # kubectl delete namespace test-env
+          # terraform destroy -auto-approve -var-file=test.tfvars
+
+          echo "✅ Test environment stopped successfully"
+
+      - name: Clean up resources
+        run: |
+          echo "🧹 Cleaning up test resources..."
+
+          # Add resource cleanup commands here
+          # Examples:
+          # - Remove test database
+          # - Delete test storage buckets
+          # - Remove test DNS records
+          # - Clean up temporary files
+
+          echo "✅ Resources cleaned up"
+
+      - name: Update deployment status
+        run: |
+          echo "📝 Updating deployment status..."
+          echo "Test environment has been destroyed"
+          echo "Triggered by: ${{ github.event_name }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "✅ Status updated"
