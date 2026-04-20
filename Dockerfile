@@ -1,11 +1,11 @@
-# Build stage
-FROM node:20-alpine AS build
+FROM alpine:3.20 AS build
+RUN apk add --no-cache zig
 WORKDIR /app
-COPY package*.json bun.lock* ./
-RUN npm install
-COPY . .
-RUN npm run build
+COPY build.zig build.zig.zon ./
+COPY src ./src
+RUN zig build -Doptimize=ReleaseSafe
 
-# Production stage
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html/
+FROM alpine:3.20
+COPY --from=build /app/zig-out/bin/zig-backend /usr/local/bin/zig-backend
+EXPOSE 8080
+ENTRYPOINT ["/usr/local/bin/zig-backend"]
